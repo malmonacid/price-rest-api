@@ -1,0 +1,13 @@
+server:
+  shutdown: graceful
+  port: 8080
+
+spring:
+  profiles:
+    active: ${DEPLOY_ENV}
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: price-rest-api
+    env: ${ENVIRONMENT}
+
