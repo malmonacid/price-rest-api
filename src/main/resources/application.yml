@@ -1,4 +1,5 @@
 server:
+  address: { PRICE_RES_API_ADRRESS }
   shutdown: graceful
   port: 8080
 
@@ -10,4 +11,12 @@ spring:
   application:
     name: price-rest-api
     env: ${ENVIRONMENT}
+springfox:
+  documentation:
+    swagger:
+      v2:
+        enabled: true
+  swagger-ui:
+    enabled: true
+    url: src/main/resources/spec/price-rest-api.yml
 
