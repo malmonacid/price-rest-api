@@ -1,4 +1,4 @@
-package es.price.rest.api.infrastructure.mapper;
+package es.price.rest.api.infrastructure.rest.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

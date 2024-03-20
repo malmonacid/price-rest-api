@@ -1,5 +1,5 @@
 server:
-  address: { PRICE_RES_API_ADRRESS }
+  address: { PRICE_REST_API_ADRRESS }
   shutdown: graceful
   port: 8080
 
@@ -11,6 +11,20 @@ spring:
   application:
     name: price-rest-api
     env: ${ENVIRONMENT}
+
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: ${USER_H2}
+    password: ${PASSWORD_H2}
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      path: /h2-console
+      settings.trace: false
+      settings.web-allow-others: false
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+
 springfox:
   documentation:
     swagger:

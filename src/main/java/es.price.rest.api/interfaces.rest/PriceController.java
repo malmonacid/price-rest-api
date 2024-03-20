@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/price-rest-api")
+@RequestMapping()
 @AllArgsConstructor
 @Slf4j
 @Validated

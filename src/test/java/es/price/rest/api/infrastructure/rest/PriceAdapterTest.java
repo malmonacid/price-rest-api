@@ -1,4 +1,4 @@
-package es.price.rest.api.infrastructure;
+package es.price.rest.api.infrastructure.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
