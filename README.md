@@ -82,7 +82,6 @@ Table content
 ## application-local content
 
     DEPLOY_ENV: local
-    ENVIRONMENT: local
     PRICE_RES_API_ADRRESS: localhost
     PASSWORD_H2: password
     USER_H2: sa
