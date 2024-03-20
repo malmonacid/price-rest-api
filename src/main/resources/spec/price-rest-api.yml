@@ -102,9 +102,10 @@ components:
           type: string
           example: 1
         priceList:
-          type: string
+          type: integer
+          format: int32
           description: Identifier of the applicable price
-          example: 3
+          example: 1
         startDate:
           format: date-time
           type: string

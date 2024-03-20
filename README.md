@@ -14,6 +14,7 @@ Table content
 - [Openapi code generator](#openapi-code-generator)
 - [Swagger config](#swagger-config)
 - [application-local.yml content](#application-local-content)
+- [H2 Editor](#h2-editor)
 
 <!-- /code_chunk_output -->
 
@@ -84,3 +85,12 @@ Table content
     DEPLOY_ENV: local
     ENVIRONMENT: local
     PRICE_RES_API_ADRRESS: localhost
+    PASSWORD_H2: sa
+    USER_H2: password
+
+## h2-editor
+
+* H2 data definition in resources\data.sql
+
+* H2 editor can be used to see in memory data
+* Navigate to http://localhost:8080/h2-console

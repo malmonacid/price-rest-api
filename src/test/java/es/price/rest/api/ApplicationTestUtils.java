@@ -16,6 +16,12 @@ public class ApplicationTestUtils {
   protected static final String TEMPLATE_PRICE_API_RESPONSE_OK =
       "templates.json/price/response/price_api_response_ok.json";
 
+  protected static final String TEMPLATE_PRICE_API_RESQUEST_OK =
+      "templates.json/price/request/price_api_resquest_ok.json";
+
+  protected static final String TEMPLATE_PRICES_DB_ENTITY_OK =
+      "templates.json/price/entity/prices_entity.json";
+
   @InjectMocks
   protected ObjectMapper objectMapper;
 
