@@ -20,7 +20,7 @@ Table content
 ## Technologies
 
 * Java 21
-* Spring Boot 3.2.0
+* Spring Boot 3.2.3
 * Maven version 3.9.3
 * JUnit Jupiter
 
@@ -47,6 +47,35 @@ Table content
 
 ## openapi-code-generator
 
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>5.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <inputSpec>${project.basedir}/src/main/resources/spec/price-rest-api.yml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <apiPackage>${default.package}.handler</apiPackage>
+                            <modelPackage>${default.package}.model</modelPackage>
+                            <invokerPackage>${default.package}.handler</invokerPackage>
+                            <configOptions>
+                                <sourceFolder>src/main/java</sourceFolder>
+                                <delegatePattern>true</delegatePattern>
+                                <interfaceOnly>false</interfaceOnly>
+                                <!-- Skip - only needed model generated files -->
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
 1. Add openapi builder to de pom plugins
 1. Compile application (mvn clean install) and generate classes in target generated classes folder.
 
@@ -54,3 +83,4 @@ Table content
 
     DEPLOY_ENV: local
     ENVIRONMENT: local
+    PRICE_RES_API_ADRRESS: localhost
