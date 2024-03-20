@@ -10,20 +10,11 @@ paths:
         - name: applicationDate
           in: query
           description: Application date of the price
-          required: true
           schema:
-            type: object
-            properties:
-              startDate:
-                format: date-time
-                description: Start date of price application
-                type: string
-                example: '2024-03-18T17:00:00'
-              endDate:
-                format: date-time
-                description: End date of price application
-                type: string
-                example: '2024-03-18T17:00:00'
+            type: string
+            format: date-time
+            example: '2024-03-18T17:00:00'
+          required: true
         - name: productId
           in: query
           description: Product identifier
