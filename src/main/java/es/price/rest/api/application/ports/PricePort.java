@@ -1,19 +1,17 @@
 package es.price.rest.api.application.ports;
 
-import java.time.OffsetDateTime;
-
+import es.price.rest.api.domain.model.PriceRequest;
 import es.price.rest.api.domain.model.PriceResponse;
 
 public interface PricePort {
   /**
-   * Get price for a product, brand, and application date. Returns as output: product identifier,
-   * chain identifier, applicable rate, application dates, and final applied price.
+   * Param priceRequest is formed by productId, brandId and applicationDate. * Get price for a
+   * product, brand, and application date. Returns as output: product identifier, chain identifier,
+   * applicable rate, application dates, and final applied price.
    *
-   * @param productId
-   * @param brandId
-   * @param applicationDate
+   * @param priceRequest
    * @return PriceResponse
    */
-  PriceResponse getPrice(String productId, String brandId, OffsetDateTime applicationDate);
+  PriceResponse getPrice(PriceRequest priceRequest);
 
 }

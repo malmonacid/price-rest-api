@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,7 +33,6 @@ import es.price.rest.api.infrastructure.storage.price.repository.PricesRepositor
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
 @ContextConfiguration(classes = {PricesDbDataMapperImpl.class})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PricesDatabaseAdapterTest extends ApplicationTestUtils {
 
   private PricesDatabasePort pricesDatabasePort;
