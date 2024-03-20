@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SpringBootApplication(scanBasePackages = "es.price.rest.api")
+@SpringBootApplication(scanBasePackages = "es.price.rest.api.*")
 @ConfigurationPropertiesScan
 @Slf4j
 public class Application {
