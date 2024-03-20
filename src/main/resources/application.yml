@@ -10,8 +10,6 @@ spring:
     allow-bean-definition-overriding: true
   application:
     name: price-rest-api
-    env: ${ENVIRONMENT}
-
   datasource:
     url: jdbc:h2:mem:mydb
     username: ${USER_H2}
@@ -19,18 +17,14 @@ spring:
     driverClassName: org.h2.Driver
   h2:
     console:
-      path: /h2-console
-      settings.trace: false
-      settings.web-allow-others: false
+      enabled: true
   jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
 
-springfox:
-  documentation:
-    swagger:
-      v2:
-        enabled: true
-  swagger-ui:
-    enabled: true
-    url: src/main/resources/spec/price-rest-api.yml
+
+
 

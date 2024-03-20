@@ -15,7 +15,7 @@ import es.price.rest.api.ApplicationTestUtils;
 import es.price.rest.api.domain.model.PricesDbData;
 import es.price.rest.api.infrastructure.storage.price.mapper.PricesDbDataMapper;
 import es.price.rest.api.infrastructure.storage.price.mapper.PricesDbDataMapperImpl;
-import es.price.rest.api.infrastructure.storage.price.model.PriceEntity;
+import es.price.rest.api.infrastructure.storage.price.model.Prices;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
 class PricesDbDataMapperTest extends ApplicationTestUtils {
@@ -31,7 +31,7 @@ class PricesDbDataMapperTest extends ApplicationTestUtils {
   void givenPriceResponse_whenTryToMapToPriceResponseDto_thenReturnAnOkPriceResponse()
       throws IOException {
     // arrange
-    PriceEntity priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, PriceEntity.class);
+    Prices priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, Prices.class);
 
     // act
     PricesDbData pricesDbDataMapped = pricesDbDataMapper.toData(priceEntity);

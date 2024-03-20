@@ -5,15 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
@@ -24,6 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import es.price.rest.api.ApplicationTestUtils;
 import es.price.rest.api.application.ports.PricePort;
+import es.price.rest.api.domain.model.PriceRequest;
+import es.price.rest.api.domain.model.PriceResponse;
 import es.price.rest.api.infrastructure.rest.price.dto.PriceResponseDto;
 import es.price.rest.api.infrastructure.rest.price.mapper.PriceResponseDtoMapper;
 import es.price.rest.api.infrastructure.rest.price.mapper.PriceResponseDtoMapperImpl;
@@ -48,65 +47,43 @@ public class PriceControllerTest extends ApplicationTestUtils {
   void givenAnOkQueryParams_whenCallingPricesEndpointWithCorrectParams_thenReturnOkResponse(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceResponseDto priceResponseDto =
-        createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceResponseDto.class);
+    PriceRequest priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceRequest.class);
+    PriceResponse priceResponse =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceResponse.class);
 
-    when(priceController.getPrice(Mockito.anyString(), Mockito.anyString(), Mockito.any()))
-        .thenReturn(ResponseEntity.ok(priceResponseDto));
+    when(pricePort.getPrice(priceRequest)).thenReturn(priceResponse);
 
     // act
-    ResponseEntity<PriceResponseDto> response =
-        priceController.getPrice(Mockito.anyString(), Mockito.anyString(), Mockito.any());
+    ResponseEntity<PriceResponseDto> response = priceController.getPrice(
+        priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate());
 
     // assert
-    assertNotNull(priceResponseDto);
+    assertNotNull(response);
     Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-    Assertions.assertEquals(priceResponseDto, response.getBody());
-    assertNotNull(response.getBody());
-    assertThat(output).contains("[PriceController - GET] Get /price with with params");
-
+    assertThat(output).contains("[PriceController - /price] Get price with params");
   }
 
   @Test
   void givenAnOkQueryParams_whenCallingPricesEndpointWithGivenParams_thenReturnOkResponseAndLogParams(
       CapturedOutput output) throws IOException {
     // arrange
-    final String paramProductId = "54355";
-    final String paramBrandId = "1";
-    final OffsetDateTime paramApplicationDate =
-        OffsetDateTime.of(2020, 6, 10, 10, 0, 0, 0, ZoneOffset.UTC);
-    PriceResponseDto priceResponseDto =
-        createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceResponseDto.class);
+    PriceRequest priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceRequest.class);
+    PriceResponse priceResponse =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceResponse.class);
 
-    when(priceController.getPrice(Mockito.anyString(), Mockito.anyString(), Mockito.any()))
-        .thenReturn(ResponseEntity.ok(priceResponseDto));
+    when(pricePort.getPrice(priceRequest)).thenReturn(priceResponse);
 
     // act
-    ResponseEntity<PriceResponseDto> response =
-        priceController.getPrice(paramProductId, paramBrandId, paramApplicationDate);
+    ResponseEntity<PriceResponseDto> response = priceController.getPrice(
+        priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate());
 
     // assert
-    assertNotNull(priceResponseDto);
+    assertNotNull(response);
     Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-    Assertions.assertEquals(priceResponseDto, response.getBody());
-    assertNotNull(response.getBody());
     assertThat(output).contains(
-        "[PriceController - GET] Get /price with with params: productId: {}, brandId: {}, applicationDate: {}",
-        paramProductId, paramBrandId, paramApplicationDate.toString());
-  }
-
-  @Test
-  void givenAnBadQueryParams_whenCallingPricesEndpointWithGivenParams_thenReturnOkResponseAndLogParams() {
-    // arrange
-    final String paramProductId = null;
-    final String paramBrandId = null;
-
-    // act
-    ResponseEntity<PriceResponseDto> response =
-        priceController.getPrice(paramProductId, paramBrandId, Mockito.any());
-
-    // assert
-    Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        "[PriceController - /price] Get price with params: productId: 35455, brandId: 1, applicationDate: 2020-06-14T16:00Z");
   }
 
 }

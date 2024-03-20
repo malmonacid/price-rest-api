@@ -9,7 +9,7 @@ import es.price.rest.api.domain.handler.exceptions.PricesDatabaseAdapterExceptio
 import es.price.rest.api.domain.model.PriceRequest;
 import es.price.rest.api.domain.model.PricesDbData;
 import es.price.rest.api.infrastructure.storage.price.mapper.PricesDbDataMapper;
-import es.price.rest.api.infrastructure.storage.price.model.PriceEntity;
+import es.price.rest.api.infrastructure.storage.price.model.Prices;
 import es.price.rest.api.infrastructure.storage.price.repository.PricesRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class PricesDatabaseAdapter implements PricesDatabasePort {
     log.info("[PricesDatabaseAdapter - findPricesByPriceRequest()] Get price with with request: {}",
         priceRequest);
     try {
-      Optional<PriceEntity> optionalPrice = pricesRepository
+      Optional<Prices> optionalPrice = pricesRepository
           .findPriceByProductIdAndBrandIdAndDateByPriority(priceRequest.getProductId(),
               priceRequest.getBrandId(), priceRequest.getApplicationDate());
 

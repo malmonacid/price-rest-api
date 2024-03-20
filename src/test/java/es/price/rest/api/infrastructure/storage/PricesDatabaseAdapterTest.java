@@ -28,7 +28,7 @@ import es.price.rest.api.domain.model.PricesDbData;
 import es.price.rest.api.infrastructure.storage.price.PricesDatabaseAdapter;
 import es.price.rest.api.infrastructure.storage.price.mapper.PricesDbDataMapper;
 import es.price.rest.api.infrastructure.storage.price.mapper.PricesDbDataMapperImpl;
-import es.price.rest.api.infrastructure.storage.price.model.PriceEntity;
+import es.price.rest.api.infrastructure.storage.price.model.Prices;
 import es.price.rest.api.infrastructure.storage.price.repository.PricesRepository;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
@@ -54,7 +54,7 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
     // arrange
     PriceRequest priceRequest =
         createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceRequest.class);
-    PriceEntity priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, PriceEntity.class);
+    Prices priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, Prices.class);
 
     when(pricesRepository.findPriceByProductIdAndBrandIdAndDateByPriority(
         priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate()))
@@ -81,7 +81,7 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
     // arrange
     PriceRequest priceRequest =
         createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceRequest.class);
-    PriceEntity priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, PriceEntity.class);
+    Prices priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, Prices.class);
 
     when(pricesRepository.findPriceByProductIdAndBrandIdAndDateByPriority(
         priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate()))
@@ -120,7 +120,7 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
 
   @Test
   void whenApplicationStarts_thenHibernateCreatesInitialRecords() {
-    List<PriceEntity> pricesDbData = pricesRepository.findAll();
+    List<Prices> pricesDbData = pricesRepository.findAll();
     Assertions.assertEquals(pricesDbData.size(), 0);
   }
 
