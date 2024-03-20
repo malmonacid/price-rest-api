@@ -67,7 +67,7 @@ components:
           type: string
           example: 35455
     Brand:
-      description:
+      description: brand enum
       type: string
       enum:
         - "1"
@@ -117,7 +117,8 @@ components:
           description: End date
           example: '2024-03-18T17:00:00'
         price:
-          type: double
+          type: integer
+          format: int64
           description: Final price to apply
           example: 15.45
     Error:

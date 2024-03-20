@@ -30,6 +30,9 @@ public class PriceController {
   @GetMapping(value = "/price", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<PriceResponseDto> getPrice(@RequestParam String productId,
       @RequestParam String brandId, @RequestParam OffsetDateTime applicationDate) {
+    log.info(
+        "[PriceController - /price] Get price with params: productId: {}, brandId: {}, applicationDate: {}",
+        productId, brandId, applicationDate);
     return ResponseEntity.ok(priceResponseDtoMapper.toDto(pricePort.getPrice(PriceRequest.builder()
         .productId(productId).brandId(brandId).applicationDate(applicationDate).build())));
   }

@@ -8,18 +8,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import es.price.rest.api.infrastructure.storage.price.model.PriceEntity;
+import es.price.rest.api.infrastructure.storage.price.model.Prices;
 
 @Repository
-public interface PricesRepository extends JpaRepository<PriceEntity, Long> {
-  @Query("SELECT p FROM PriceEntity p WHERE p.productId = ?1 AND p.brandId = ?2 AND p.startDate <= ?3 AND p.endDate >= ?3 ORDER BY p.priority")
-  List<PriceEntity> findPricesByProductIdAndBrandIdAndDate(String productId, String brandId,
+public interface PricesRepository extends JpaRepository<Prices, Long> {
+  @Query("SELECT p FROM Prices p WHERE p.productId = ?1 AND p.brandId = ?2 AND p.startDate <= ?3 AND p.endDate >= ?3 ORDER BY p.priority")
+  List<Prices> findPricesByProductIdAndBrandIdAndDate(String productId, String brandId,
       OffsetDateTime date);
 
-  default Optional<PriceEntity> findPriceByProductIdAndBrandIdAndDateByPriority(String productId,
+  default Optional<Prices> findPriceByProductIdAndBrandIdAndDateByPriority(String productId,
       String brandId, OffsetDateTime date) {
-    final List<PriceEntity> prices =
-        findPricesByProductIdAndBrandIdAndDate(productId, brandId, date);
+    final List<Prices> prices = findPricesByProductIdAndBrandIdAndDate(productId, brandId, date);
     return prices.isEmpty() ? Optional.empty() : Optional.of(prices.getFirst());
   }
 }

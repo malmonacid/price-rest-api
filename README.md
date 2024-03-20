@@ -44,7 +44,6 @@ Table content
 
 1. openapi file declaration price-rest-api.yml in /resources/spec/ folder
 1. if any changes use openapi code generator to regenerate model classes
-1. run application and navigate to http://localhost:8080/swagger-ui/index.html
 
 ## openapi-code-generator
 
@@ -85,12 +84,12 @@ Table content
     DEPLOY_ENV: local
     ENVIRONMENT: local
     PRICE_RES_API_ADRRESS: localhost
-    PASSWORD_H2: sa
-    USER_H2: password
+    PASSWORD_H2: password
+    USER_H2: sa
 
 ## h2-editor
 
-* H2 data definition in resources\data.sql
+* H2 data definition in resources\data.sql and schema.sql
+* after starting the application, we can navigate to http://localhost:8080/h2-console, which will present us with a
+  login page. 
 
-* H2 editor can be used to see in memory data
-* Navigate to http://localhost:8080/h2-console
