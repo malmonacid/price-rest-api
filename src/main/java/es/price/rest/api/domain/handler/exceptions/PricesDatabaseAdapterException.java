@@ -5,4 +5,8 @@ public class PricesDatabaseAdapterException extends RuntimeException {
     super(cause);
   }
 
+  public PricesDatabaseAdapterException(String msg) {
+    super(msg);
+  }
+
 }
