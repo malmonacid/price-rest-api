@@ -15,6 +15,7 @@ Table content
 - [Swagger config](#swagger-config)
 - [application-local.yml content](#application-local-content)
 - [H2 Editor](#h2-editor)
+- [Docker](#Docker)
 
 <!-- /code_chunk_output -->
 
@@ -42,7 +43,7 @@ Table content
 
 ## swagger-config
 
-1. Swagger definition: http://localhost:8080/swagger-ui/index.html
+1. Swagger definition: http://localhost:8080/swagger-ui/index.html (run project first)
 1. Plugin can be configurated
 
         <configuration> 
@@ -88,6 +89,8 @@ Table content
 1. Add openapi builder to de pom plugins
 1. Compile application (mvn clean install) and generate classes in target generated classes folder.
 
+**WARNING: under no circumstances upload these changes to the repository.**
+
 ## application-local content
 
     DEPLOY_ENV: local
@@ -99,5 +102,10 @@ Table content
 
 * H2 data definition in resources\data.sql and schema.sql
 * after starting the application, we can navigate to http://localhost:8080/h2-console, which will present us with a
-  login page. 
+  login page.
 
+## Docker
+
+1. Build image
+
+* ./mvnw spring-boot:build-image

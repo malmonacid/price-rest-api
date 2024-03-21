@@ -12,7 +12,7 @@ import es.price.rest.api.infrastructure.storage.price.model.Prices;
 
 @Repository
 public interface PricesRepository extends JpaRepository<Prices, Long> {
-  @Query("SELECT p FROM Prices p WHERE p.productId = ?1 AND p.brandId = ?2 AND p.startDate <= ?3 AND p.endDate >= ?3 ORDER BY p.priority")
+  @Query("SELECT p FROM Prices p WHERE p.productId = ?1 AND p.brandId = ?2 AND p.startDate <= ?3 AND p.endDate >= ?3 ORDER BY p.priority desc")
   List<Prices> findPricesByProductIdAndBrandIdAndDate(String productId, String brandId,
       OffsetDateTime date);
 
