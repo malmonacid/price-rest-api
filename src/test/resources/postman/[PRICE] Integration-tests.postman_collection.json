@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Prices 1 - Brand 1 - 14-06-2020:10:00 OK",
+			"name": "Test 1 - Brand 1 - 14-06-2020:10:00 OK",
 			"event": [
 				{
 					"listen": "test",
@@ -47,6 +47,12 @@
 							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
 							"    // Verify the error message or other details in the response",
 							"});",
+							"",
+							"pm.test(\"Successful response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json()).to.have.property(\"data\").that.is.not.null;",
+							"    // Add more assertions as needed to verify the returned data",
+							"});",
 							""
 						],
 						"type": "text/javascript",
@@ -70,12 +76,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-14T10:00:00Z",
+					"raw": "{{URL_PRICE}}/price?productId=35455&brandId=1&applicationDate=2020-06-14T10:00:00Z",
 					"host": [
 						"{{URL_PRICE}}"
 					],
 					"path": [
-						"prices"
+						"price"
 					],
 					"query": [
 						{
@@ -161,7 +167,7 @@
 			"response": []
 		},
 		{
-			"name": "Prices 1 - Brand 1 - 14-06-2020:10:00 Brand not found",
+			"name": "Prices 1 - Brand 1 - 14-06-2020:10:00 Empty database results",
 			"event": [
 				{
 					"listen": "test",
@@ -222,7 +228,7 @@
 			"response": []
 		},
 		{
-			"name": "Prices 1 - Brand 1 - 14-06-2020:10:00 Bad params",
+			"name": "Prices 1 - Brand 1 - 14-06-2020:10:00 Bad request",
 			"event": [
 				{
 					"listen": "test",
@@ -283,7 +289,7 @@
 			"response": []
 		},
 		{
-			"name": "Prices 1 - Brand 1 - 14-06-2020:16:00 OK",
+			"name": "Test 2 - Brand 1 - 14-06-2020:16:00 OK",
 			"event": [
 				{
 					"listen": "test",
@@ -381,7 +387,7 @@
 			"response": []
 		},
 		{
-			"name": "Prices 1 - Brand 1 - 14-06-2020:21:00 OK",
+			"name": "Test 3 - Brand 1 - 14-06-2020:21:00 OK",
 			"event": [
 				{
 					"listen": "test",
@@ -449,12 +455,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-14T21:00:00Z",
+					"raw": "{{URL_PRICE}}/price?productId=35455&brandId=1&applicationDate=2020-06-14T21:00:00Z",
 					"host": [
 						"{{URL_PRICE}}"
 					],
 					"path": [
-						"prices"
+						"price"
 					],
 					"query": [
 						{
@@ -479,7 +485,7 @@
 			"response": []
 		},
 		{
-			"name": "Prices 1 - Brand 1 - 15-06-2020:10:00 OK",
+			"name": "Test 4 - Brand 1 - 15-06-2020:10:00 OK",
 			"event": [
 				{
 					"listen": "test",
@@ -547,12 +553,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-15T10:00:00Z",
+					"raw": "{{URL_PRICE}}/price?productId=35455&brandId=1&applicationDate=2020-06-15T00:00:00Z",
 					"host": [
 						"{{URL_PRICE}}"
 					],
 					"path": [
-						"prices"
+						"price"
 					],
 					"query": [
 						{
@@ -567,7 +573,7 @@
 						},
 						{
 							"key": "applicationDate",
-							"value": "2020-06-15T10:00:00Z",
+							"value": "2020-06-15T00:00:00Z",
 							"description": "Application date of the price"
 						}
 					]
@@ -577,7 +583,7 @@
 			"response": []
 		},
 		{
-			"name": "Prices 1 - Brand 1 - 16-06-2020:21:00 OK",
+			"name": "Test 5 - Brand 1 - 16-06-2020:21:00 OK",
 			"event": [
 				{
 					"listen": "test",
@@ -645,12 +651,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-16T21:00:00Z",
+					"raw": "{{URL_PRICE}}/price?productId=35455&brandId=1&applicationDate=2020-06-16T21:00:00Z",
 					"host": [
 						"{{URL_PRICE}}"
 					],
 					"path": [
-						"prices"
+						"price"
 					],
 					"query": [
 						{
