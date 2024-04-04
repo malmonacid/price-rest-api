@@ -1,0 +1,715 @@
+{
+	"info": {
+		"_postman_id": "3d915ea6-9cc2-4e17-ac41-626a80ce07ad",
+		"name": "[PRICE] Integration-tests",
+		"description": "# ⛓️ Get started here\n\nPostman allows you to test your APIs using simple Javascript code. You can evaluate your response body, headers, cookies, and more using the [ChaiJS BDD](https://www.chaijs.com/api/bdd/) syntax.\n\nThis template guides you through the process of setting up an integration test to ensure that all individual components of an API function together seamlessly.\n\nThe API under test in this collection includes three endpoints for registering and receiving a token, accessing your unique generated name, and unregistering a token:\n\n- POST `/register`\n- POST `/unregister`\n- GET `/my-name`\n    \n\nBy setting up requests in the order of the operation, we can test the flow of data to and from the endpoints and ensure they work together as expected. We also verify that the data persists between requests on the back end.\n\n## 🔖 **How to use this template**\n\n**Step 1:** Check out the requests' documentation to learn more about -\n\n- what each request is meant to do.\n- the tests we've added against each one.\n    \n\n**Step 2:** Run this collection by clicking on \"Run\".\n\n<img src=\"https://content.pstmn.io/84019b0f-69c8-4c5f-98b9-2c90a6f9a0b1/Y29sbGVjdGlvbi1ydW5uZXItYnV0dG9uLmpwZWc=\" alt=\"\" height=\"103\" width=\"266\">\n\n**Step 3:** To customize this template, replace the request URLs with your API endpoints and add or edit the tests if needed.\n\n## ℹ️ Resources\n\n[Scripting in Postman](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/)\n\n[Test script examples](https://learning.postman.com/docs/writing-scripts/script-references/test-examples/)\n\n[Postman Sandbox API reference](https://learning.postman.com/docs/sending-requests/grpc/postman-sandbox-api/#writing-assertions)\n\n[Using the Collection Runner](https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17584851"
+	},
+	"item": [
+		{
+			"name": "Test 1 - Brand 1 - 14-06-2020:10:00 OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"pm.test(\"Failed request due to incorrect authentication\", function () {",
+							"    pm.response.to.have.status(401);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the authentication error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Failed request due to invalid data\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Successful response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json()).to.have.property(\"data\").that.is.not.null;",
+							"    // Add more assertions as needed to verify the returned data",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-14T10:00:00Z",
+					"host": [
+						"{{URL_PRICE}}"
+					],
+					"path": [
+						"prices"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "35455",
+							"description": "Product identifier"
+						},
+						{
+							"key": "brandId",
+							"value": "1",
+							"description": "Brand identifier"
+						},
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T10:00:00Z",
+							"description": "Application date of the price"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Prices 1 - Brand 1 - 14-06-2020:10:00 Product Not Found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_PRICE}}/prices?productId=37869&brandId=1&applicationDate=2020-06-14T10:00:00Z",
+					"host": [
+						"{{URL_PRICE}}"
+					],
+					"path": [
+						"prices"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "37869"
+						},
+						{
+							"key": "brandId",
+							"value": "1"
+						},
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T10:00:00Z"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Prices 1 - Brand 1 - 14-06-2020:10:00 Empty database results",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=55&applicationDate=2020-06-14T10:00:00Z",
+					"host": [
+						"{{URL_PRICE}}"
+					],
+					"path": [
+						"prices"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "35455",
+							"description": "Product identifier"
+						},
+						{
+							"key": "brandId",
+							"value": "55",
+							"description": "Brand identifier"
+						},
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T10:00:00Z",
+							"description": "Application date of the price"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Prices 1 - Brand 1 - 14-06-2020:10:00 Bad request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=hola&applicationDate=si",
+					"host": [
+						"{{URL_PRICE}}"
+					],
+					"path": [
+						"prices"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "35455",
+							"description": "Product identifier"
+						},
+						{
+							"key": "brandId",
+							"value": "hola",
+							"description": "Brand identifier"
+						},
+						{
+							"key": "applicationDate",
+							"value": "si",
+							"description": "Application date of the price"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Test 2 - Brand 1 - 14-06-2020:16:00 OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Failed request due to incorrect authentication\", function () {",
+							"    pm.response.to.have.status(401);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the authentication error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Failed request due to invalid data\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Successful response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json()).to.have.property(\"data\").that.is.not.null;",
+							"    // Add more assertions as needed to verify the returned data",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-14T16:00:00Z",
+					"host": [
+						"{{URL_PRICE}}"
+					],
+					"path": [
+						"prices"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "35455",
+							"description": "Product identifier"
+						},
+						{
+							"key": "brandId",
+							"value": "1",
+							"description": "Brand identifier"
+						},
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T16:00:00Z",
+							"description": "Application date of the price"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Test 3 - Brand 1 - 14-06-2020:21:00 OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Failed request due to incorrect authentication\", function () {",
+							"    pm.response.to.have.status(401);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the authentication error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Failed request due to invalid data\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Successful response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json()).to.have.property(\"data\").that.is.not.null;",
+							"    // Add more assertions as needed to verify the returned data",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-14T21:00:00Z",
+					"host": [
+						"{{URL_PRICE}}"
+					],
+					"path": [
+						"prices"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "35455",
+							"description": "Product identifier"
+						},
+						{
+							"key": "brandId",
+							"value": "1",
+							"description": "Brand identifier"
+						},
+						{
+							"key": "applicationDate",
+							"value": "2020-06-14T21:00:00Z",
+							"description": "Application date of the price"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Test 4 - Brand 1 - 15-06-2020:10:00 OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Failed request due to incorrect authentication\", function () {",
+							"    pm.response.to.have.status(401);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the authentication error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Failed request due to invalid data\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Successful response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json()).to.have.property(\"data\").that.is.not.null;",
+							"    // Add more assertions as needed to verify the returned data",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-15T00:00:00Z",
+					"host": [
+						"{{URL_PRICE}}"
+					],
+					"path": [
+						"prices"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "35455",
+							"description": "Product identifier"
+						},
+						{
+							"key": "brandId",
+							"value": "1",
+							"description": "Brand identifier"
+						},
+						{
+							"key": "applicationDate",
+							"value": "2020-06-15T00:00:00Z",
+							"description": "Application date of the price"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		},
+		{
+			"name": "Test 5 - Brand 1 - 16-06-2020:21:00 OK",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body should contain expected data\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data).to.eql(\"expected_data\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Failed request due to incorrect authentication\", function () {",
+							"    pm.response.to.have.status(401);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the authentication error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Failed request due to invalid data\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.expect(pm.response.json()).to.have.property(\"error\").that.is.not.null;",
+							"    // Verify the error message or other details in the response",
+							"});",
+							"",
+							"pm.test(\"Successful response\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json()).to.have.property(\"data\").that.is.not.null;",
+							"    // Add more assertions as needed to verify the returned data",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL_PRICE}}/prices?productId=35455&brandId=1&applicationDate=2020-06-16T21:00:00Z",
+					"host": [
+						"{{URL_PRICE}}"
+					],
+					"path": [
+						"prices"
+					],
+					"query": [
+						{
+							"key": "productId",
+							"value": "35455",
+							"description": "Product identifier"
+						},
+						{
+							"key": "brandId",
+							"value": "1",
+							"description": "Brand identifier"
+						},
+						{
+							"key": "applicationDate",
+							"value": "2020-06-16T21:00:00Z",
+							"description": "Application date of the price"
+						}
+					]
+				},
+				"description": "This request uses the saved `token` collection variable to access a secret 'name' stored against that token.\n\nIn this request, we used the `token` collection variable as a query param to fetch the name generated for that token. We have added a test to check that a name is correctly returned."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://postman-integration-testing.glitch.me/"
+		},
+		{
+			"key": "URL_PRICE",
+			"value": "http://localhost:8080"
+		}
+	]
+}

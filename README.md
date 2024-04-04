@@ -9,6 +9,7 @@ Table content
 <!-- code_chunk_output -->
 
 - [Technologies](#technologies)
+- [Modules](#modules)
 - [Console Run](#console-run)
 - [Intellij Run](#intellij-run)
 - [Openapi code generator](#openapi-code-generator)
@@ -26,6 +27,14 @@ Table content
 * Maven version 3.9.3
 * JUnit Jupiter
 
+## Modules
+
+* api
+* application
+* domain
+* infrastructure
+* run-api
+
 ## Console Run
 
 1. Create file application-local.yml in /src/main/resources, and add the secrets that are missing.
@@ -36,8 +45,7 @@ Table content
 ## Intellij run
 
 1. Create file [application-local.yml content](#application-local-content), and add the secrets that are missing.
-1. Run -> Edit Configurations -> Add New Configuration -> Application
-1. Add the project main class <<Application.java>> to the configuration and confirm (OK).
+
 1. Set profile active to local -Dspring.profiles.active=local
 1. Finally, select the created configuration and click run/debug.
 
@@ -57,39 +65,33 @@ Table content
 
 ## openapi-code-generator
 
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>5.3.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <verbose>true</verbose>
-                            <inputSpec>${project.basedir}/src/main/resources/spec/price-rest-api.yml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <library>spring-boot</library>
-                            <apiPackage>${default.package}.handler</apiPackage>
-                            <modelPackage>${default.package}.model</modelPackage>
-                            <invokerPackage>${default.package}.handler</invokerPackage>
-                            <configOptions>
-                                <sourceFolder>src/main/java</sourceFolder>
-                                <delegatePattern>true</delegatePattern>
-                                <interfaceOnly>false</interfaceOnly>
-                                <!-- Skip - only needed model generated files -->
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.openapitools</groupId>
+                      <artifactId>openapi-generator-maven-plugin</artifactId>
+                      <version>6.2.1</version>
+                      <executions>
+                          <execution>
+                              <goals>
+                                  <goal>generate</goal>
+                              </goals>
+                              <configuration>
+                                  <skipValidateSpec>true</skipValidateSpec>
+                                  <inputSpec>${project.basedir}/src/main/resources/spec/price-rest-api.yaml</inputSpec>
+                                  <generatorName>spring</generatorName>
+                                  <configOptions>
+                                      <openApiNullable>false</openApiNullable>
+                                      <interfaceOnly>true</interfaceOnly>
+                                  </configOptions>
+                              </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
 
-1. Add openapi builder to de pom plugins
 1. Compile application (mvn clean install) and generate classes in target generated classes folder.
-
-**WARNING: under no circumstances upload these changes to the repository.**
 
 ## application-local content
 
