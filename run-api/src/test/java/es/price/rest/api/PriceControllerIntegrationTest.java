@@ -56,7 +56,7 @@ public class PriceControllerIntegrationTest {
     paramMap.add("brandId", "1");
 
     // assert
-    this.mockMvc.perform(get("/prices").params(paramMap)).andDo(print()).andExpect(status().isOk())
+    this.mockMvc.perform(get("/prices").params(paramMap)).andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value("35455"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value("1"))
@@ -76,7 +76,7 @@ public class PriceControllerIntegrationTest {
     paramMap.add("brandId", "1");
 
     // assert
-    this.mockMvc.perform(get("/prices").params(paramMap)).andDo(print()).andExpect(status().isOk())
+    this.mockMvc.perform(get("/prices").params(paramMap)).andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value("35455"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value("1"))
@@ -96,7 +96,7 @@ public class PriceControllerIntegrationTest {
     paramMap.add("brandId", "1");
 
     // assert
-    this.mockMvc.perform(get("/prices").params(paramMap)).andDo(print()).andExpect(status().isOk())
+    this.mockMvc.perform(get("/prices").params(paramMap)).andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value("35455"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value("1"))
@@ -116,7 +116,7 @@ public class PriceControllerIntegrationTest {
     paramMap.add("brandId", "1");
 
     // assert
-    this.mockMvc.perform(get("/prices").params(paramMap)).andDo(print()).andExpect(status().isOk())
+    this.mockMvc.perform(get("/prices").params(paramMap)).andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value("35455"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value("1"))
@@ -136,7 +136,7 @@ public class PriceControllerIntegrationTest {
     paramMap.add("brandId", "1");
 
     // assert
-    this.mockMvc.perform(get("/prices").params(paramMap)).andDo(print()).andExpect(status().isOk())
+    this.mockMvc.perform(get("/prices").params(paramMap)).andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value("35455"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value("1"))

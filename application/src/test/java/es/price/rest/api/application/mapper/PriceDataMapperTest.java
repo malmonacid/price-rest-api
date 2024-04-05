@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 
+import es.price.rest.api.ApplicationTestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,7 @@ import es.price.rest.api.domain.model.PricesData;
 import es.price.rest.api.domain.repository.model.Prices;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
-class PriceDataMapperTest extends ApplicationT {
+class PriceDataMapperTest extends ApplicationTestUtils {
 
   private PriceDataMapper priceDataMapper;
 
@@ -26,7 +27,7 @@ class PriceDataMapperTest extends ApplicationT {
   }
 
   @Test
-  void givenPriceResponse_whenTryToMapToPriceResponseDto_thenReturnAnOkPriceResponse()
+  void givenPriceResponse_whenTryToMapToPriceResponseDto_thenReturnAnEqualPriceResponse()
       throws IOException {
     // arrange
     Prices priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, Prices.class);
@@ -53,24 +54,24 @@ class PriceDataMapperTest extends ApplicationT {
   }
 
   @Test
-  void givenPriceResponse_whenTryToMapToPriceResponseDto_thenReturnAnOkPriceResponse()
+  void givenPriceResponse_whenTryToMapToModel_thenReturnAnOkPriceResponse()
       throws IOException {
     // arrange
-    PriceOut priceResponse = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceOut.class);
+    PricesData pricesData = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PricesData.class);
 
     // act
-    PriceResponse resMapped = priceResponseDtoMapper.toDto(priceResponse);
+    PriceOut resMapped = priceDataMapper.toModel(pricesData);
 
     // assert
     assertNotNull(resMapped);
-    assertEquals(priceResponse.getProductId(), resMapped.getProductId(),
+    assertEquals(pricesData.getProductId(), resMapped.getProductId(),
         "Assert product id equals");
-    assertEquals(priceResponse.getBrandId(), resMapped.getBrandId(), "Assert brand id is the same");
-    assertEquals(priceResponse.getPriceList(), resMapped.getPriceList(),
+    assertEquals(pricesData.getBrandId(), resMapped.getBrandId(), "Assert brand id is the same");
+    assertEquals(pricesData.getPriceList(), resMapped.getPriceList(),
         "Assert price list is the same");
-    assertEquals(priceResponse.getStartDate(), resMapped.getStartDate(),
+    assertEquals(pricesData.getStartDate(), resMapped.getStartDate(),
         "Assert start date equals");
-    assertEquals(priceResponse.getEndDate(), resMapped.getEndDate(), "Assert end date equals");
+    assertEquals(pricesData.getEndDate(), resMapped.getEndDate(), "Assert end date equals");
   }
 
 }

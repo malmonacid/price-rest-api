@@ -8,8 +8,6 @@ import es.price.rest.api.domain.model.PricesData;
 
 @Mapper(componentModel = "spring")
 public interface PriceResponseDbMapper {
-
   @Mapping(target = "finalPrice", source = "price")
   PriceOut toModel(PricesData pricesDbData);
-
 }

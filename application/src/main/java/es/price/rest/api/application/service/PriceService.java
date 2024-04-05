@@ -1,5 +1,6 @@
 package es.price.rest.api.application.service;
 
+import es.price.rest.api.application.exception.PriceServiceException;
 import org.springframework.stereotype.Service;
 
 import es.price.rest.api.application.mapper.PriceDataMapper;
@@ -28,7 +29,7 @@ public class PriceService implements PricePort {
       log.error(
           "[PriceService - getPrice()] Unexpected error in get price with with params productId: {}, brandId: {}, applicationDate: {}",
           priceIn.getProductId(), priceIn.getBrandId(), priceIn.getApplicationDate());
-      throw new PriceAdapterException(e);
+      throw new PriceServiceException(e);
     }
   }
 }

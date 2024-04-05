@@ -7,6 +7,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
+import es.price.rest.api.application.exception.PriceServiceException;
+import es.price.rest.api.application.mapper.PriceDataMapper;
+import es.price.rest.api.application.mapper.PriceDataMapperImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,27 +22,23 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import es.price.rest.api.ApplicationTestUtils;
-import es.price.rest.api.domain.exception.PriceAdapterException;
 import es.price.rest.api.domain.model.PriceIn;
 import es.price.rest.api.domain.model.PriceOut;
 import es.price.rest.api.domain.model.PricesData;
 import es.price.rest.api.domain.ports.PricePort;
-import es.price.rest.api.infrastructure.rest.mapper.PriceResponseDbMapper;
-import es.price.rest.api.infrastructure.rest.mapper.PriceResponseDbMapperImpl;
-import es.price.rest.api.infrastructure.storage.PricesDatabaseAdapter;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
-@ContextConfiguration(classes = {PriceResponseDbMapperImpl.class})
+@ContextConfiguration(classes = {PriceDataMapperImpl.class})
 class PriceServiceTest extends ApplicationTestUtils {
   private PricePort pricePort;
   @Mock
-  private PricesDatabaseAdapter pricesDatabaseAdapter;
+  private PriceDatabaseService priceDatabaseService;
   @Autowired
-  private PriceResponseDbMapper priceResponseDbMapper;
+  private PriceDataMapper priceDataMapper;
 
   @BeforeEach
   void setUp() {
-    pricePort = new PriceAdapter(pricesDatabaseAdapter, priceResponseDbMapper);
+    pricePort = new PriceService(priceDataMapper, priceDatabaseService);
   }
 
   @Test
@@ -50,7 +49,7 @@ class PriceServiceTest extends ApplicationTestUtils {
     PriceOut priceResponse = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceOut.class);
     PricesData pricesDbData = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, PricesData.class);
 
-    when(pricesDatabaseAdapter.findPricesByPriceRequest(priceRequest)).thenReturn(pricesDbData);
+    when(priceDatabaseService.findPricesByPriceRequest(priceRequest)).thenReturn(pricesDbData);
     // act
     PriceOut priceResult = pricePort.getPrice(priceRequest);
 
@@ -65,7 +64,7 @@ class PriceServiceTest extends ApplicationTestUtils {
     Assertions.assertEquals(priceResult.getStartDate(), priceResponse.getStartDate(),
         "Check start date");
     Assertions.assertEquals(priceResult.getEndDate(), priceResponse.getEndDate(), "Check end date");
-    assertThat(output).contains("[PriceAdapter - getPrice()] Get price with with request");
+    assertThat(output).contains("[PriceService - getPrice()] Get price with with request");
   }
 
   @Test
@@ -76,7 +75,7 @@ class PriceServiceTest extends ApplicationTestUtils {
     PriceOut priceResponse = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceOut.class);
     PricesData pricesDbData = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, PricesData.class);
 
-    when(pricesDatabaseAdapter.findPricesByPriceRequest(priceRequest)).thenReturn(pricesDbData);
+    when(priceDatabaseService.findPricesByPriceRequest(priceRequest)).thenReturn(pricesDbData);
 
     // act
     PriceOut priceResult = pricePort.getPrice(priceRequest);
@@ -92,7 +91,7 @@ class PriceServiceTest extends ApplicationTestUtils {
     Assertions.assertEquals(priceResult.getStartDate(), priceResponse.getStartDate(),
         "Check start date");
     Assertions.assertEquals(priceResult.getEndDate(), priceResponse.getEndDate(), "Check end date");
-    assertThat(output).contains("[PriceAdapter - getPrice()] Get price with with request");
+    assertThat(output).contains("[PriceService - getPrice()] Get price with with request");
   }
 
   @Test
@@ -102,15 +101,15 @@ class PriceServiceTest extends ApplicationTestUtils {
     PriceIn priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceIn.class);
     priceRequest.setProductId("000000");
 
-    when(pricesDatabaseAdapter.findPricesByPriceRequest(priceRequest))
-        .thenThrow(PriceAdapterException.class);
+    when(priceDatabaseService.findPricesByPriceRequest(priceRequest))
+        .thenThrow(PriceServiceException.class);
 
     // assert
-    assertThrows(PriceAdapterException.class,
+    assertThrows(PriceServiceException.class,
         // act
         () -> pricePort.getPrice(priceRequest),
-        "Assert PriceAdapterException is thrown when no result");
-    assertThat(output).contains("[PriceAdapter - getPrice()] Get price with with request");
+        "Assert PriceServiceException is thrown when no result");
+    assertThat(output).contains("[PriceService - getPrice()] Get price with with request");
   }
 
   @Test
@@ -120,16 +119,16 @@ class PriceServiceTest extends ApplicationTestUtils {
     PriceIn priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceIn.class);
     priceRequest.setProductId(null);
 
-    when(pricesDatabaseAdapter.findPricesByPriceRequest(priceRequest))
-        .thenThrow(PriceAdapterException.class);
+    when(priceDatabaseService.findPricesByPriceRequest(priceRequest))
+        .thenThrow(PriceServiceException.class);
 
     // assert
-    assertThrows(PriceAdapterException.class,
+    assertThrows(PriceServiceException.class,
         // act
         () -> pricePort.getPrice(priceRequest),
-        "Assert PriceAdapterException is thrown when any parameter is null");
+        "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
-        .contains("[PriceAdapter - getPrice()] Unexpected error in get price with with params");
+        .contains("[PriceService - getPrice()] Unexpected error in get price with with params");
   }
 
   @Test
@@ -139,16 +138,16 @@ class PriceServiceTest extends ApplicationTestUtils {
     PriceIn priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceIn.class);
     priceRequest.setBrandId(null);
 
-    when(pricesDatabaseAdapter.findPricesByPriceRequest(priceRequest))
-        .thenThrow(PriceAdapterException.class);
+    when(priceDatabaseService.findPricesByPriceRequest(priceRequest))
+        .thenThrow(PriceServiceException.class);
 
     // assert
-    assertThrows(PriceAdapterException.class,
+    assertThrows(PriceServiceException.class,
         // act
         () -> pricePort.getPrice(priceRequest),
-        "Assert PriceAdapterException is thrown when any parameter is null");
+        "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
-        .contains("[PriceAdapter - getPrice()] Unexpected error in get price with with params");
+        .contains("[PriceService - getPrice()] Unexpected error in get price with with params");
   }
 
   @Test
@@ -158,16 +157,16 @@ class PriceServiceTest extends ApplicationTestUtils {
     PriceIn priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceIn.class);
     priceRequest.setApplicationDate(null);
 
-    when(pricesDatabaseAdapter.findPricesByPriceRequest(priceRequest))
-        .thenThrow(PriceAdapterException.class);
+    when(priceDatabaseService.findPricesByPriceRequest(priceRequest))
+        .thenThrow(PriceServiceException.class);
 
     // assert
-    assertThrows(PriceAdapterException.class,
+    assertThrows(PriceServiceException.class,
         // act
         () -> pricePort.getPrice(priceRequest),
-        "Assert PriceAdapterException is thrown when any parameter is null");
+        "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
-        .contains("[PriceAdapter - getPrice()] Unexpected error in get price with with params");
+        .contains("[PriceService - getPrice()] Unexpected error in get price with with params");
   }
 
 }

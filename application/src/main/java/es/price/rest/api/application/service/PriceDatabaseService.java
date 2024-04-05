@@ -2,6 +2,7 @@ package es.price.rest.api.application.service;
 
 import java.util.Optional;
 
+import es.price.rest.api.application.exception.PriceServiceException;
 import org.springframework.stereotype.Service;
 
 import es.price.rest.api.application.exception.PriceDatabaseServiceException;

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 
+import es.price.rest.api.ApplicationTestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +13,6 @@ import org.openapitools.model.PriceResponse;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import es.price.rest.api.ApplicationTestUtils;
 import es.price.rest.api.domain.model.PriceOut;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})

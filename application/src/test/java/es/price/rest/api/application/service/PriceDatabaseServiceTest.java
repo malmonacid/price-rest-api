@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import es.price.rest.api.application.exception.PriceDatabaseServiceException;
+import es.price.rest.api.application.mapper.PriceDataMapper;
+import es.price.rest.api.application.mapper.PriceDataMapperImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,12 +30,9 @@ import es.price.rest.api.domain.model.PricesData;
 import es.price.rest.api.domain.ports.PricesDatabasePort;
 import es.price.rest.api.domain.repository.PricesRepository;
 import es.price.rest.api.domain.repository.model.Prices;
-import es.price.rest.api.infrastructure.storage.PricesDatabaseAdapter;
-import es.price.rest.api.infrastructure.storage.mapper.PricesDbDataMapper;
-import es.price.rest.api.infrastructure.storage.mapper.PricesDbDataMapperImpl;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
-@ContextConfiguration(classes = {PricesDbDataMapperImpl.class})
+@ContextConfiguration(classes = {PriceDataMapperImpl.class})
 class PriceDatabaseServiceTest extends ApplicationTestUtils {
 
   private PricesDatabasePort pricesDatabasePort;
@@ -41,11 +41,11 @@ class PriceDatabaseServiceTest extends ApplicationTestUtils {
   private PricesRepository pricesRepository;
 
   @Autowired
-  private PricesDbDataMapper pricesDbDataMapper;
+  private PriceDataMapper pricesDbDataMapper;
 
   @BeforeEach
   void setUp() {
-    pricesDatabasePort = new PricesDatabaseAdapter(pricesRepository, pricesDbDataMapper);
+    pricesDatabasePort = new PriceDatabaseService(pricesRepository, pricesDbDataMapper);
   }
 
   @Test
@@ -71,7 +71,7 @@ class PriceDatabaseServiceTest extends ApplicationTestUtils {
     Assertions.assertEquals(pricesDataResult.getPriority(), 1, "Check price");
     Assertions.assertEquals(pricesDataResult.getPrice(), 25.45, "Check priority");
     assertThat(output).contains(
-        "[PricesDatabaseAdapter - findPricesByPriceRequest()] Get price with with request");
+        "[PriceDatabaseService - findPricesByPriceRequest()] Get price with with request");
   }
 
   @Test
@@ -97,7 +97,7 @@ class PriceDatabaseServiceTest extends ApplicationTestUtils {
     Assertions.assertEquals(pricesDbDataResult.getPriority(), 1, "Check priority");
     Assertions.assertEquals(pricesDbDataResult.getPrice(), 25.45, "Check price");
     assertThat(output).contains(
-        "[PricesDatabaseAdapter - findPricesByPriceRequest()] Get price with with request");
+        "[PriceDatabaseService - findPricesByPriceRequest()] Get price with with request");
   }
 
   @Test
@@ -107,12 +107,12 @@ class PriceDatabaseServiceTest extends ApplicationTestUtils {
     PriceIn priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceIn.class);
 
     // assert
-    assertThrows(PricesDatabaseAdapterException.class,
+    assertThrows(PriceDatabaseServiceException.class,
         // act
         () -> pricesDatabasePort.findPricesByPriceRequest(priceRequest),
-        "Assert PriceAdapterException is thrown when any parameter is null or malformed");
+        "Assert PriceDatabaseServiceException is thrown when any parameter is null or malformed");
     assertThat(output).contains(
-        "[ERROR PricesDatabaseAdapter - findPricesByPriceRequest()] Get price with with request");
+        "[ERROR PriceDatabaseService - findPricesByPriceRequest()] Get price with with request");
   }
 
   @Test

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import es.price.rest.api.ApplicationTestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,6 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import es.price.rest.api.ApplicationTestUtils;
 import es.price.rest.api.domain.exception.PricesDatabaseAdapterException;
 import es.price.rest.api.domain.model.PriceIn;
 import es.price.rest.api.domain.model.PricesData;

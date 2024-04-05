@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
+import es.price.rest.api.ApplicationTestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import es.price.rest.api.ApplicationTestUtils;
 import es.price.rest.api.domain.model.PriceIn;
 import es.price.rest.api.domain.model.PriceOut;
 import es.price.rest.api.domain.ports.PricePort;
