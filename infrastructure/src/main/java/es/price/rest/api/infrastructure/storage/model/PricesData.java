@@ -1,4 +1,4 @@
-package es.price.rest.api.application.model;
+package es.price.rest.api.infrastructure.storage.model;
 
 import java.time.OffsetDateTime;
 
@@ -11,10 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PriceBean {
+public class PricesData {
 
   private String priceList;
-
   private String brandId;
   private String productId;
   private OffsetDateTime startDate;

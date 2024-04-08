@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import es.price.rest.api.domain.exception.PricesDatabaseAdapterException;
-import es.price.rest.api.domain.model.PriceIn;
-import es.price.rest.api.domain.model.PricesData;
+import es.price.rest.api.domain.model.PriceQuery;
+import es.price.rest.api.domain.model.Price;
 import es.price.rest.api.domain.ports.PricesDatabasePort;
 import es.price.rest.api.domain.repository.PricesRepository;
 import es.price.rest.api.domain.repository.model.Prices;
@@ -24,13 +24,13 @@ public class PricesDatabaseAdapter implements PricesDatabasePort {
   private final PricesDbDataMapper pricesDbDataMapper;
 
   @Override
-  public PricesData findPricesByPriceRequest(PriceIn priceIn) {
+  public Price findPricesByPriceRequest(PriceQuery priceQuery) {
     log.info("[PricesDatabaseAdapter - findPricesByPriceRequest()] Get price with with request: {}",
-        priceIn);
+            priceQuery);
     try {
       Optional<Prices> optionalPrice =
-          pricesRepository.findPriceByProductIdAndBrandIdAndDateByPriority(priceIn.getProductId(),
-              priceIn.getBrandId(), priceIn.getApplicationDate());
+          pricesRepository.findPriceByProductIdAndBrandIdAndDateByPriority(priceQuery.getProductId(),
+              priceQuery.getBrandId(), priceQuery.getApplicationDate());
 
       return pricesDbDataMapper.toData(optionalPrice
           .orElseThrow(() -> new PricesDatabaseAdapterException("Empty database results")));
@@ -38,7 +38,7 @@ public class PricesDatabaseAdapter implements PricesDatabasePort {
     } catch (RuntimeException e) {
       log.error(
           "[ERROR PricesDatabaseAdapter - findPricesByPriceRequest()] Get price with with request: {}",
-          priceIn);
+              priceQuery);
       throw new PricesDatabaseAdapterException(e);
     }
   }

@@ -10,5 +10,4 @@ import es.price.rest.api.domain.model.PriceOut;
 public interface PriceResponseDtoMapper {
   @Mapping(target = "price", source = "finalPrice")
   PriceResponse toDto(PriceOut priceOut);
-
 }
