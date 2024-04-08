@@ -1,0 +1,4 @@
+DEPLOY_ENV: local
+PRICE_RES_API_ADRRESS: localhost
+PASSWORD_H2: password
+USER_H2: sa
