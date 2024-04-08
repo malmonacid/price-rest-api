@@ -1,4 +1,4 @@
-package es.price.rest.api.infrastructure.storage.model;
+package es.price.rest.api.domain.model;
 
 import java.time.OffsetDateTime;
 
@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PricesDto {
+public class Price {
 
   private String priceList;
+
   private String brandId;
   private String productId;
   private OffsetDateTime startDate;

@@ -11,16 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PricesData {
-
-  private String priceList;
-
-  private String brandId;
+public class PriceQuery {
   private String productId;
-  private OffsetDateTime startDate;
-  private int priority;
-  private Double price;
-  private String curr;
-  private OffsetDateTime endDate;
-
+  private String brandId;
+  private OffsetDateTime applicationDate;
 }

@@ -1,6 +1,6 @@
 package es.price.rest.api.domain.ports;
 
-import es.price.rest.api.domain.model.PriceIn;
+import es.price.rest.api.domain.model.PriceQuery;
 import es.price.rest.api.domain.model.PriceOut;
 
 public interface PricePort {
@@ -9,9 +9,9 @@ public interface PricePort {
    * product, brand, and application date. Returns as output: product identifier, chain identifier,
    * applicable rate, application dates, and final applied price.
    *
-   * @param priceIn
+   * @param priceQuery
    * @return PriceResponse
    */
-  PriceOut getPrice(PriceIn priceIn);
+  PriceOut getPrice(PriceQuery priceQuery);
 
 }

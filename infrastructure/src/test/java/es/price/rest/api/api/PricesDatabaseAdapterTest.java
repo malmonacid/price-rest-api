@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import es.price.rest.api.ApplicationTestUtils;
+import es.price.rest.api.domain.model.Price;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import es.price.rest.api.domain.exception.PricesDatabaseAdapterException;
-import es.price.rest.api.domain.model.PriceIn;
-import es.price.rest.api.domain.model.PricesData;
+import es.price.rest.api.domain.model.PriceQuery;
 import es.price.rest.api.domain.ports.PricesDatabasePort;
 import es.price.rest.api.domain.repository.PricesRepository;
 import es.price.rest.api.domain.repository.model.Prices;
@@ -52,7 +52,7 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
   void givenOkRequestParams_whenCallingToFindPricesByPriceRequest_thenReturnOkData(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceIn priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceIn.class);
+    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     es.price.rest.api.domain.repository.model.Prices priceEntity = createObjectFromJson(
         TEMPLATE_PRICES_DB_ENTITY_OK, es.price.rest.api.domain.repository.model.Prices.class);
 
@@ -61,16 +61,16 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
         .thenReturn(Optional.ofNullable(priceEntity));
 
     // act
-    PricesData pricesDataResult = pricesDatabasePort.findPricesByPriceRequest(priceRequest);
+    Price priceResult = pricesDatabasePort.findPricesByPriceRequest(priceRequest);
 
     // assert
-    assertNotNull(pricesDataResult);
-    Assertions.assertEquals(pricesDataResult.getProductId(), "35455", "Product is equals");
-    Assertions.assertEquals(pricesDataResult.getBrandId(), "1", "Brand is the same");
-    Assertions.assertEquals(pricesDataResult.getPriceList(), "2", "PriceList is the same");
-    Assertions.assertEquals(pricesDataResult.getCurr(), "EUR", "Check CURR");
-    Assertions.assertEquals(pricesDataResult.getPriority(), 1, "Check price");
-    Assertions.assertEquals(pricesDataResult.getPrice(), 25.45, "Check priority");
+    assertNotNull(priceResult);
+    Assertions.assertEquals(priceResult.getProductId(), "35455", "Product is equals");
+    Assertions.assertEquals(priceResult.getBrandId(), "1", "Brand is the same");
+    Assertions.assertEquals(priceResult.getPriceList(), "2", "PriceList is the same");
+    Assertions.assertEquals(priceResult.getCurr(), "EUR", "Check CURR");
+    Assertions.assertEquals(priceResult.getPriority(), 1, "Check price");
+    Assertions.assertEquals(priceResult.getPrice(), 25.45, "Check priority");
     assertThat(output).contains(
         "[PricesDatabaseAdapter - findPricesByPriceRequest()] Get price with with request");
   }
@@ -79,7 +79,7 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
   void givenRequestThatReturnsMoreThanOneResult_whenCallingToFindPricesByPriceRequest_thenReturnTheOneWithBestPriority(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceIn priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceIn.class);
+    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     es.price.rest.api.domain.repository.model.Prices priceEntity = createObjectFromJson(
         TEMPLATE_PRICES_DB_ENTITY_OK, es.price.rest.api.domain.repository.model.Prices.class);
 
@@ -88,7 +88,7 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
         .thenReturn(Optional.ofNullable(priceEntity));
 
     // act
-    PricesData pricesDbDataResult = pricesDatabasePort.findPricesByPriceRequest(priceRequest);
+    Price pricesDbDataResult = pricesDatabasePort.findPricesByPriceRequest(priceRequest);
 
     // assert
     assertNotNull(pricesDbDataResult);
@@ -106,7 +106,7 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
   void givenBadRequestParams_whenCallingToFindPricesByPriceRequest_thenReturnPricesDatabaseAdapterException(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceIn priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceIn.class);
+    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
 
     // assert
     assertThrows(PricesDatabaseAdapterException.class,

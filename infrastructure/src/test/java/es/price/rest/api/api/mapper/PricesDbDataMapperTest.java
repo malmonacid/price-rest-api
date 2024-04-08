@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import es.price.rest.api.domain.model.PricesData;
+import es.price.rest.api.domain.model.Price;
 import es.price.rest.api.domain.repository.model.Prices;
 import es.price.rest.api.infrastructure.storage.mapper.PricesDbDataMapper;
 import es.price.rest.api.infrastructure.storage.mapper.PricesDbDataMapperImpl;
@@ -34,7 +34,7 @@ class PricesDbDataMapperTest extends ApplicationTestUtils {
     Prices priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, Prices.class);
 
     // act
-    PricesData pricesDbDataMapped = pricesDbDataMapper.toData(priceEntity);
+    Price pricesDbDataMapped = pricesDbDataMapper.toData(priceEntity);
 
     // assert
     assertNotNull(pricesDbDataMapped);
