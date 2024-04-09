@@ -23,11 +23,11 @@ public class PriceFindUseCase implements PricePort {
   @Override
   public PriceOut getPrice(PriceQuery priceQuery) {
     try {
-      log.info("[PriceService - getPrice()] Get price with with request: {}", priceQuery);
+      log.info("[PriceFindUseCase - getPrice()] Get price with with request: {}", priceQuery);
       return priceDataMapper.toModel(pricesDatabasePort.findPricesByPriceRequest(priceQuery));
     } catch (RuntimeException e) {
       log.error(
-          "[PriceService - getPrice()] Unexpected error in get price with with params productId: {}, brandId: {}, applicationDate: {}",
+          "[PriceFindUseCase - getPrice()] Unexpected error in get price with with params productId: {}, brandId: {}, applicationDate: {}",
           priceQuery.getProductId(), priceQuery.getBrandId(), priceQuery.getApplicationDate());
       throw new PriceFindUseCaseException(e);
     }
