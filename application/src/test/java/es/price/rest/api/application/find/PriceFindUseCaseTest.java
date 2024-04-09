@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import es.price.rest.api.application.find.exception.PriceFindUseCaseException;
 import es.price.rest.api.application.find.mapper.PriceDataMapper;
-import es.price.rest.api.application.mapper.PriceDataMapperImpl;
+import es.price.rest.api.application.find.mapper.PriceDataMapperImpl;
 import es.price.rest.api.domain.model.Price;
 import es.price.rest.api.domain.ports.PricesDatabasePort;
 import org.junit.jupiter.api.Assertions;

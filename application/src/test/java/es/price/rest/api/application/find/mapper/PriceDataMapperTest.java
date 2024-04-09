@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.IOException;
 
 import es.price.rest.api.ApplicationTestUtils;
-import es.price.rest.api.application.find.mapper.PriceDataMapper;
-import es.price.rest.api.application.mapper.PriceDataMapperImpl;
 import es.price.rest.api.domain.model.Price;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
