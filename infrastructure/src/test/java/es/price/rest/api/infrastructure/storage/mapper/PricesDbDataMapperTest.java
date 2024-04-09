@@ -1,40 +1,37 @@
-package es.price.rest.api.application.mapper;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.IOException;
+package es.price.rest.api.infrastructure.storage.mapper;
 
 import es.price.rest.api.ApplicationTestUtils;
-import es.price.rest.api.application.find.mapper.PriceDataMapper;
 import es.price.rest.api.domain.model.Price;
+import es.price.rest.api.domain.repository.model.Prices;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import es.price.rest.api.domain.model.PriceOut;
-import es.price.rest.api.domain.repository.model.Prices;
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
-class PriceDataMapperTest extends ApplicationTestUtils {
+class PricesDbDataMapperTest extends ApplicationTestUtils {
 
-  private PriceDataMapper priceDataMapper;
+  private PricesDbDataMapper pricesDbDataMapper;
 
   @BeforeEach
   void setUp() {
-    priceDataMapper = new PriceDataMapperImpl();
+    pricesDbDataMapper = new PricesDbDataMapperImpl();
   }
 
   @Test
-  void givenPriceResponse_whenTryToMapToPriceResponseDto_thenReturnAnEqualPriceResponse()
+  void givenPriceResponse_whenTryToMapToPriceResponseDto_thenReturnAnOkPriceResponse()
       throws IOException {
     // arrange
     Prices priceEntity = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, Prices.class);
 
     // act
-    Price pricesDbDataMapped = priceDataMapper.toData(priceEntity);
+    Price pricesDbDataMapped = pricesDbDataMapper.toData(priceEntity);
 
     // assert
     assertNotNull(pricesDbDataMapped);
@@ -53,26 +50,4 @@ class PriceDataMapperTest extends ApplicationTestUtils {
     assertEquals(priceEntity.getEndDate(), pricesDbDataMapped.getEndDate(),
         "Assert end date equals");
   }
-
-  @Test
-  void givenPriceResponse_whenTryToMapToModel_thenReturnAnOkPriceResponse()
-      throws IOException {
-    // arrange
-    Price price = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, Price.class);
-
-    // act
-    PriceOut resMapped = priceDataMapper.toModel(price);
-
-    // assert
-    assertNotNull(resMapped);
-    assertEquals(price.getProductId(), resMapped.getProductId(),
-        "Assert product id equals");
-    assertEquals(price.getBrandId(), resMapped.getBrandId(), "Assert brand id is the same");
-    assertEquals(price.getPriceList(), resMapped.getPriceList(),
-        "Assert price list is the same");
-    assertEquals(price.getStartDate(), resMapped.getStartDate(),
-        "Assert start date equals");
-    assertEquals(price.getEndDate(), resMapped.getEndDate(), "Assert end date equals");
-  }
-
 }

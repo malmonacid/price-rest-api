@@ -1,16 +1,14 @@
-package es.price.rest.api.api;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+package es.price.rest.api.infrastructure.storage;
 
 import es.price.rest.api.ApplicationTestUtils;
+import es.price.rest.api.domain.exception.PricesDatabaseAdapterException;
 import es.price.rest.api.domain.model.Price;
+import es.price.rest.api.domain.model.PriceQuery;
+import es.price.rest.api.domain.ports.PricesDatabasePort;
+import es.price.rest.api.domain.repository.PricesRepository;
+import es.price.rest.api.domain.repository.model.Prices;
+import es.price.rest.api.infrastructure.storage.mapper.PricesDbDataMapper;
+import es.price.rest.api.infrastructure.storage.mapper.PricesDbDataMapperImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,14 +20,14 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import es.price.rest.api.domain.exception.PricesDatabaseAdapterException;
-import es.price.rest.api.domain.model.PriceQuery;
-import es.price.rest.api.domain.ports.PricesDatabasePort;
-import es.price.rest.api.domain.repository.PricesRepository;
-import es.price.rest.api.domain.repository.model.Prices;
-import es.price.rest.api.infrastructure.storage.PricesDatabaseAdapter;
-import es.price.rest.api.infrastructure.storage.mapper.PricesDbDataMapper;
-import es.price.rest.api.infrastructure.storage.mapper.PricesDbDataMapperImpl;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
 @ContextConfiguration(classes = {PricesDbDataMapperImpl.class})
@@ -53,8 +51,8 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
       CapturedOutput output) throws IOException {
     // arrange
     PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
-    es.price.rest.api.domain.repository.model.Prices priceEntity = createObjectFromJson(
-        TEMPLATE_PRICES_DB_ENTITY_OK, es.price.rest.api.domain.repository.model.Prices.class);
+    Prices priceEntity = createObjectFromJson(
+        TEMPLATE_PRICES_DB_ENTITY_OK, Prices.class);
 
     when(pricesRepository.findPriceByProductIdAndBrandIdAndDateByPriority(
         priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate()))
@@ -80,8 +78,8 @@ class PricesDatabaseAdapterTest extends ApplicationTestUtils {
       CapturedOutput output) throws IOException {
     // arrange
     PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
-    es.price.rest.api.domain.repository.model.Prices priceEntity = createObjectFromJson(
-        TEMPLATE_PRICES_DB_ENTITY_OK, es.price.rest.api.domain.repository.model.Prices.class);
+    Prices priceEntity = createObjectFromJson(
+        TEMPLATE_PRICES_DB_ENTITY_OK, Prices.class);
 
     when(pricesRepository.findPriceByProductIdAndBrandIdAndDateByPriority(
         priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate()))
