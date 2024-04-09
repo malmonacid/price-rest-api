@@ -1,4 +1,4 @@
-package es.price.rest.api.application.service;
+package es.price.rest.api.application.find;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,9 +8,8 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 
 import es.price.rest.api.application.find.exception.PriceFindUseCaseException;
-import es.price.rest.api.application.find.PriceFindUseCase;
 import es.price.rest.api.application.find.mapper.PriceDataMapper;
-import es.price.rest.api.application.mapper.PriceDataMapperImpl;
+import es.price.rest.api.application.find.mapper.PriceDataMapperImpl;
 import es.price.rest.api.domain.model.Price;
 import es.price.rest.api.domain.ports.PricesDatabasePort;
 import org.junit.jupiter.api.Assertions;
@@ -66,7 +65,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
     Assertions.assertEquals(priceResult.getStartDate(), priceResponse.getStartDate(),
         "Check start date");
     Assertions.assertEquals(priceResult.getEndDate(), priceResponse.getEndDate(), "Check end date");
-    assertThat(output).contains("[PriceService - getPrice()] Get price with with request");
+    assertThat(output).contains("[PriceFindUseCase - getPrice()] Get price with with request");
   }
 
   @Test
@@ -93,7 +92,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
     Assertions.assertEquals(priceResult.getStartDate(), priceResponse.getStartDate(),
         "Check start date");
     Assertions.assertEquals(priceResult.getEndDate(), priceResponse.getEndDate(), "Check end date");
-    assertThat(output).contains("[PriceService - getPrice()] Get price with with request");
+    assertThat(output).contains("[PriceFindUseCase - getPrice()] Get price with with request");
   }
 
   @Test
@@ -111,7 +110,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
         // act
         () -> pricePort.getPrice(priceRequest),
         "Assert PriceServiceException is thrown when no result");
-    assertThat(output).contains("[PriceService - getPrice()] Get price with with request");
+    assertThat(output).contains("[PriceFindUseCase - getPrice()] Get price with with request");
   }
 
   @Test
@@ -130,7 +129,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
         () -> pricePort.getPrice(priceRequest),
         "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
-        .contains("[PriceService - getPrice()] Unexpected error in get price with with params");
+        .contains("[PriceFindUseCase - getPrice()] Unexpected error in get price with with params");
   }
 
   @Test
@@ -149,7 +148,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
         () -> pricePort.getPrice(priceRequest),
         "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
-        .contains("[PriceService - getPrice()] Unexpected error in get price with with params");
+        .contains("[PriceFindUseCase - getPrice()] Unexpected error in get price with with params");
   }
 
   @Test
@@ -168,7 +167,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
         () -> pricePort.getPrice(priceRequest),
         "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
-        .contains("[PriceService - getPrice()] Unexpected error in get price with with params");
+        .contains("[PriceFindUseCase - getPrice()] Unexpected error in get price with with params");
   }
 
 }
