@@ -1,7 +1,6 @@
 package es.price.rest.api;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Assertions;
@@ -144,6 +143,31 @@ public class PriceControllerIntegrationTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").value("2020-06-15T16:00:00+02:00"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.endDate").value("2020-12-31T23:59:59+01:00"))
         .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(38.95));
+  }
+
+  @Test
+  @Sql("/data.sql")
+  void givenPricesUriWithInvalidParameter_whenMockMVC_thenReturnErrorResponse() throws Exception {
+    // arrange
+    MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
+    paramMap.add("applicationDate", "2020-06-14T21:00:00Z");
+    paramMap.add("productId", "35455");
+
+    // assert
+    this.mockMvc.perform(get("/prices").params(paramMap)).andExpect(status().isBadRequest());
+  }
+
+  @Test
+  @Sql("/data.sql")
+  void givenPricesUriWithNonExistentProduct_whenMockMVC_thenReturnNotFound() throws Exception {
+    // arrange
+    MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
+    paramMap.add("applicationDate", "2020-06-14T21:00:00Z");
+    paramMap.add("productId", "99999");
+    paramMap.add("brandId", "1");
+
+    // assert
+    this.mockMvc.perform(get("/prices").params(paramMap)).andExpect(status().isNotFound());
   }
 
 }

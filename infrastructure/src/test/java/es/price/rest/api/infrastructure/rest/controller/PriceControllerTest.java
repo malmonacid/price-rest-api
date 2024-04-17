@@ -1,4 +1,4 @@
-package es.price.rest.api.infrastructure.interfaces.rest;
+package es.price.rest.api.infrastructure.rest.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -6,9 +6,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import es.price.rest.api.ApplicationTestUtils;
-import es.price.rest.api.infrastructure.rest.mapper.PriceQueryMapper;
-import es.price.rest.api.infrastructure.rest.mapper.PriceQueryMapperImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,9 +20,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import es.price.rest.api.domain.model.PriceQuery;
+import es.price.rest.api.ApplicationTestUtils;
 import es.price.rest.api.domain.model.PriceOut;
-import es.price.rest.api.domain.ports.PricePort;
+import es.price.rest.api.domain.model.PriceQuery;
+import es.price.rest.api.domain.ports.PriceFindUseCasePort;
+import es.price.rest.api.infrastructure.rest.mapper.PriceQueryMapper;
+import es.price.rest.api.infrastructure.rest.mapper.PriceQueryMapperImpl;
 import es.price.rest.api.infrastructure.rest.mapper.PriceResponseDtoMapper;
 import es.price.rest.api.infrastructure.rest.mapper.PriceResponseDtoMapperImpl;
 
@@ -35,7 +35,7 @@ public class PriceControllerTest extends ApplicationTestUtils {
 
   private PriceController priceController;
   @Mock
-  private PricePort pricePort;
+  private PriceFindUseCasePort priceFindUseCasePort;
 
   @Autowired
   PriceResponseDtoMapper priceResponseDtoMapper;
@@ -45,17 +45,19 @@ public class PriceControllerTest extends ApplicationTestUtils {
 
   @BeforeEach
   void setUp() {
-    priceController = new PriceController(pricePort, priceResponseDtoMapper, priceQueryMapper);
+    priceController =
+        new PriceController(priceFindUseCasePort, priceResponseDtoMapper, priceQueryMapper);
   }
 
   @Test
   void givenAnOkQueryParams_whenCallingPricesEndpointWithCorrectParams_thenReturnOkResponse(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
+    PriceQuery priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     PriceOut priceResponse = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceOut.class);
 
-    when(pricePort.getPrice(priceRequest)).thenReturn(priceResponse);
+    when(priceFindUseCasePort.getPrice(priceRequest)).thenReturn(priceResponse);
 
     // act
     ResponseEntity<PriceResponse> response = priceController.getPrice(
@@ -71,10 +73,11 @@ public class PriceControllerTest extends ApplicationTestUtils {
   void givenAnOkQueryParams_whenCallingPricesEndpointWithGivenParams_thenReturnOkResponseAndLogParams(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
+    PriceQuery priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     PriceOut priceResponse = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceOut.class);
 
-    when(pricePort.getPrice(priceRequest)).thenReturn(priceResponse);
+    when(priceFindUseCasePort.getPrice(priceRequest)).thenReturn(priceResponse);
 
     // act
     ResponseEntity<PriceResponse> response = priceController.getPrice(
