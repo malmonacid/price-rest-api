@@ -7,11 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import es.price.rest.api.application.find.exception.PriceFindUseCaseException;
-import es.price.rest.api.application.find.mapper.PriceDataMapper;
-import es.price.rest.api.application.find.mapper.PriceDataMapperImpl;
-import es.price.rest.api.domain.model.Price;
-import es.price.rest.api.domain.ports.PricesDatabasePort;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,14 +19,19 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import es.price.rest.api.ApplicationTestUtils;
-import es.price.rest.api.domain.model.PriceQuery;
+import es.price.rest.api.application.find.exception.PriceFindUseCaseException;
+import es.price.rest.api.application.find.mapper.PriceDataMapper;
+import es.price.rest.api.application.find.mapper.PriceDataMapperImpl;
+import es.price.rest.api.domain.model.Price;
 import es.price.rest.api.domain.model.PriceOut;
-import es.price.rest.api.domain.ports.PricePort;
+import es.price.rest.api.domain.model.PriceQuery;
+import es.price.rest.api.domain.ports.PriceFindUseCasePort;
+import es.price.rest.api.domain.ports.PricesDatabasePort;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
 @ContextConfiguration(classes = {PriceDataMapperImpl.class})
 class PriceFindUseCaseTest extends ApplicationTestUtils {
-  private PricePort pricePort;
+  private PriceFindUseCasePort priceFindUseCasePort;
   @Mock
   private PricesDatabasePort pricesDatabasePort;
   @Autowired
@@ -39,20 +39,21 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
 
   @BeforeEach
   void setUp() {
-    pricePort = new PriceFindUseCase(priceDataMapper, pricesDatabasePort);
+    priceFindUseCasePort = new PriceFindUseCaseFindUseCase(priceDataMapper, pricesDatabasePort);
   }
 
   @Test
   void givenRequestParams_whenCallingToGetPriceAdapter_thenReturnResponseWithCorrectData(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
+    PriceQuery priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     PriceOut priceResponse = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceOut.class);
     Price pricesDbData = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, Price.class);
 
     when(pricesDatabasePort.findPricesByPriceRequest(priceRequest)).thenReturn(pricesDbData);
     // act
-    PriceOut priceResult = pricePort.getPrice(priceRequest);
+    PriceOut priceResult = priceFindUseCasePort.getPrice(priceRequest);
 
     // assert
     assertNotNull(priceResult);
@@ -72,14 +73,15 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
   void givenRequestParamsThatReturnsTwoPrices_whenCallingToGetPriceAdapter_thenReturnResponseWithBestPriority(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
+    PriceQuery priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     PriceOut priceResponse = createObjectFromJson(TEMPLATE_PRICE_API_RESPONSE_OK, PriceOut.class);
     Price pricesDbData = createObjectFromJson(TEMPLATE_PRICES_DB_ENTITY_OK, Price.class);
 
     when(pricesDatabasePort.findPricesByPriceRequest(priceRequest)).thenReturn(pricesDbData);
 
     // act
-    PriceOut priceResult = pricePort.getPrice(priceRequest);
+    PriceOut priceResult = priceFindUseCasePort.getPrice(priceRequest);
 
     // assert
     assertNotNull(priceResult);
@@ -99,7 +101,8 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
   void givenRequestParamsThatDontFindAny_whenCallingToGetPriceAdapter_thenReturnPriceAdapterException(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
+    PriceQuery priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     priceRequest.setProductId("000000");
 
     when(pricesDatabasePort.findPricesByPriceRequest(priceRequest))
@@ -108,7 +111,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
     // assert
     assertThrows(PriceFindUseCaseException.class,
         // act
-        () -> pricePort.getPrice(priceRequest),
+        () -> priceFindUseCasePort.getPrice(priceRequest),
         "Assert PriceServiceException is thrown when no result");
     assertThat(output).contains("[PriceFindUseCase - getPrice()] Get price with with request");
   }
@@ -117,7 +120,8 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
   void givenRequestParamsWithProductIdNull_whenCallingToGetPriceAdapter_thenReturnPriceAdapterException(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
+    PriceQuery priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     priceRequest.setProductId(null);
 
     when(pricesDatabasePort.findPricesByPriceRequest(priceRequest))
@@ -126,7 +130,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
     // assert
     assertThrows(PriceFindUseCaseException.class,
         // act
-        () -> pricePort.getPrice(priceRequest),
+        () -> priceFindUseCasePort.getPrice(priceRequest),
         "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
         .contains("[PriceFindUseCase - getPrice()] Unexpected error in get price with with params");
@@ -136,7 +140,8 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
   void givenRequestParamsWithBrandIdNull_whenCallingToGetPriceAdapter_thenReturnPriceAdapterException(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
+    PriceQuery priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     priceRequest.setBrandId(null);
 
     when(pricesDatabasePort.findPricesByPriceRequest(priceRequest))
@@ -145,7 +150,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
     // assert
     assertThrows(PriceFindUseCaseException.class,
         // act
-        () -> pricePort.getPrice(priceRequest),
+        () -> priceFindUseCasePort.getPrice(priceRequest),
         "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
         .contains("[PriceFindUseCase - getPrice()] Unexpected error in get price with with params");
@@ -155,7 +160,8 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
   void givenRequestApplicationDateNull_whenCallingToGetPriceAdapter_thenReturnPriceAdapterException(
       CapturedOutput output) throws IOException {
     // arrange
-    PriceQuery priceRequest = createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
+    PriceQuery priceRequest =
+        createObjectFromJson(TEMPLATE_PRICE_API_RESQUEST_OK, PriceQuery.class);
     priceRequest.setApplicationDate(null);
 
     when(pricesDatabasePort.findPricesByPriceRequest(priceRequest))
@@ -164,7 +170,7 @@ class PriceFindUseCaseTest extends ApplicationTestUtils {
     // assert
     assertThrows(PriceFindUseCaseException.class,
         // act
-        () -> pricePort.getPrice(priceRequest),
+        () -> priceFindUseCasePort.getPrice(priceRequest),
         "Assert PriceServiceException is thrown when any parameter is null");
     assertThat(output)
         .contains("[PriceFindUseCase - getPrice()] Unexpected error in get price with with params");

@@ -38,7 +38,7 @@
             <artifactId>infrastructure</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-        <!-- Infrastructure -->
+        <!-- Application -->
         <dependency>
             <groupId>es.price.rest.api.application</groupId>
             <artifactId>application</artifactId>
