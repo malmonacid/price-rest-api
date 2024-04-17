@@ -1,6 +1,6 @@
 # run-api
 
-Price Api Rest module for boot application. 
+Price Api Rest module for boot application.
 
 Table content
 --------------
@@ -58,4 +58,4 @@ Table content
 
 1. Build image
 
-* ./mvnw spring-boot:build-image
+* docker build -t price-rest-api:latest .

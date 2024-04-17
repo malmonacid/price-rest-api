@@ -1,4 +1,4 @@
-package es.price.rest.api.domain.repository.model;
+package es.price.rest.api.infrastructure.db.repository.model;
 
 import java.time.OffsetDateTime;
 

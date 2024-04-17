@@ -1,18 +1,19 @@
-package es.price.rest.api.infrastructure.storage.mapper;
+package es.price.rest.api.infrastructure.db.mapper;
 
-import es.price.rest.api.ApplicationTestUtils;
-import es.price.rest.api.domain.model.Price;
-import es.price.rest.api.domain.repository.model.Prices;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import es.price.rest.api.ApplicationTestUtils;
+import es.price.rest.api.domain.model.Price;
+import es.price.rest.api.infrastructure.db.repository.model.Prices;
 
 @ExtendWith({SpringExtension.class, OutputCaptureExtension.class})
 class PricesDbDataMapperTest extends ApplicationTestUtils {
